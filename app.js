@@ -34,10 +34,10 @@ app.get("/", function(req,res){
 app.get ("/:marca",function(req,res){
     Veiculos.findAll({ where : {"marca": req.params.marca}}).then (function(veiculo){
         res.send (veiculo);
-        res.send ("consulta realizada com sucesso");
+        res.send ("Consulta realizada com sucesso");
     
     }).catch (function(erro){
-        res.send("veículo inexistente na base de dados")
+        res.send("Veículo inexistente na base de dados")
     })
 
 
@@ -53,7 +53,7 @@ app.patch("/atualizar/:id",function(req,res){
         {where:{"id": req.params.id}}
 
     ).then(function(){
-        res.send ("atualizado com sucesso")
+        res.send ("Atualizado com sucesso")
     }).catch(function(erro){
         res.send ("erro ao atualizar o veiculo"+ erro);
     });
@@ -62,7 +62,7 @@ app.patch("/atualizar/:id",function(req,res){
 
 app.delete ("/deletar/:id",function(req,res){               //metódo da rota 
     Veiculos.destroy({ where:{"id": req.params.id  }});     // metódo do banco   
-    res.send ("veiculo deletado com sucesso").catch (function(erro){
+    res.send ("Veiculo deletado com sucesso").catch (function(erro){
         res.send("erro ao deletar dado"+ erro)
     })
 
