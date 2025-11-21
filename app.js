@@ -1,13 +1,13 @@
-const express = require ("express");
+const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
 const Veiculos = require ("./models/Veiculos");
-const { where } = require("sequelize");
+const bodyParser = require("body-parser");
 
-//configurar body-parser 
+//configurar o body-parser
+    
+app.use(bodyParser.urlencoded({extend:false}));
+app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({extended: false }));
-app.use (bodyParser.json());
 
 app.post("/cadastro",function (req,res){
     Veiculos.create({
@@ -28,11 +28,9 @@ app.post("/cadastro",function (req,res){
 app.get("/", function(req,res){
     Veiculos.findAll().then(function(Veiculos){
         res.send(Veiculos)
-        .catch(function(erro){
-            res.send("Houve um erro: " + erro)
         })
 
-   })});
+   });
 app.get ("/:marca",function(req,res){
     Veiculos.findAll({ where : {"marca": req.params.marca}}).then (function(veiculo){
         res.send (veiculo);
@@ -70,9 +68,8 @@ app.delete ("/deletar/:id",function(req,res){               //metódo da rota
 
 })
 
-const PORT = process.env.PORT || 8081;          //const PORT = porta do servidor; caso não pegue a do servidor ele cai na porta local 8081.
 
 
-app.listen(PORT,"0.0.0.0",function(){ //IP para aceitar qualquer conexão de rede. 
+app.listen(8081,function(){  
     console.log ("Servidor rodando")
 });
