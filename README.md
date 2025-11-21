@@ -1,5 +1,5 @@
 Group name: 
-Santiago Porto
-Romulo Valentin 
-Jefferson 
-Matheus Lins
+Santiago Porto,
+Romulo Valentin, 
+Jefferson ,
+Matheus Lins.
