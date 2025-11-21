@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Veículos API </title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <style>
+        .response-container { margin-top: 15px; padding: 15px; border: 1px solid #d4edda; background-color: #f8f9fa; border-radius: .25rem; white-space: pre-wrap; font-family: monospace; }
+        .error { color: red; font-weight: bold; }
+        /* classes de RESPOSTA  do Bootstrap para cores */
+        .response-success { background-color: #d1e7dd; border-color: #badbcc; color: #0f5132; }
+        .response-error { background-color: #f8d7da; border-color: #f5c2c7; color: #842029; }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="mb-4 text-primary">Gerenciamento de Veículos</h1>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2>Cadastrar Novo Veículo (POST /cadastro)</h2>
+            </div>
+            <div class="card-body">
+                <form id="cadastroForm">
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Marca:</label>
+                        <input type="text" id="marca" name="marca" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelo" class="form-label">Modelo:</label>
+                        <input type="text" id="modelo" name="modelo" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ano" class="form-label">Ano:</label>
+                        <input type="number" id="ano" name="ano" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cor" class="form-label">Cor:</label>
+                        <input type="text" id="cor" name="cor" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Cadastrar Veículo</button>
+                </form>
+                <div id="cadastroResponse" class="response-container"></div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h2>Atualizar Veículo (PATCH /atualizar/:id)</h2>
+            </div>
+            <div class="card-body">
+                <form id="atualizarForm">
+                    <div class="mb-3">
+                        <label for="updateId" class="form-label">ID do Veículo a Atualizar:</label>
+                        <input type="number" id="updateId" name="id" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateMarca" class="form-label">Nova Marca:</label>
+                        <input type="text" id="updateMarca" name="marca" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateModelo" class="form-label">Novo Modelo:</label>
+                        <input type="text" id="updateModelo" name="modelo" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateAno" class="form-label">Novo Ano:</label>
+                        <input type="number" id="updateAno" name="ano" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateCor" class="form-label">Nova Cor:</label>
+                        <input type="text" id="updateCor" name="cor" class="form-control">
+                    </div>
+                    <p class="text-muted">Preencha apenas os campos que deseja atualizar.</p>
+                    <button type="submit" class="btn btn-warning text-dark">Atualizar Veículo</button>
+                </form>
+                <div id="atualizarResponse" class="response-container"></div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-info text-white">
+                <h2>Consultar Veículos</h2>
+            </div>
+            <div class="card-body">
+                
+                <h3 class="mt-0">Todos os Veículos (GET /)</h3>
+                <button id="getAllButton" class="btn btn-info text-white">Buscar Todos os Veículos</button>
+                <div id="getAllResponse" class="response-container"></div>
+                
+                <hr class="my-4">
+
+                <h3>Buscar por Marca (GET /:marca)</h3>
+                <form id="getByMarcaForm">
+                    <div class="mb-3">
+                        <label for="searchMarca" class="form-label">Marca para Buscar:</label>
+                        <input type="text" id="searchMarca" name="marca" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-info text-white">Buscar por Marca</button>
+                </form>
+                <div id="getByMarcaResponse" class="response-container"></div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-danger text-white">
+                <h2>Excluir Veículo (DELETE /deletar/:id)</h2>
+            </div>
+            <div class="card-body">
+                <form id="deletarForm">
+                    <div class="mb-3">
+                        <label for="deleteId" class="form-label">ID do Veículo a Deletar:</label>
+                        <input type="number" id="deleteId" name="id" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Deletar Veículo</button>
+                </form>
+                <div id="deletarResponse" class="response-container"></div>
+            </div>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+    const API_BASE_URL = 'http://localhost:8081'; // port
+
+
+    async function makeRequest(url, method, body = null, responseElement, formElement = null) {
+        // limpa classes e mostra status de carregamento
+        responseElement.innerHTML = 'Carregando...';
+        responseElement.classList.remove('response-success', 'response-error');
+        responseElement.classList.remove('error'); // remove a classe de texto vermelho de erro
+        responseElement.style.backgroundColor = ''; // remove o style inline antigo (por segurança)
+
+        try {
+            const options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            if (body && (method === 'POST' || method === 'PATCH')) {
+                options.body = JSON.stringify(body);
+            }
+
+            const response = await fetch(url, options);
+            let responseText = await response.text();
+
+            // tenta fazer parse como JSON
+            try {
+                const json = JSON.parse(responseText);
+                responseText = JSON.stringify(json, null, 2);
+            } catch (e) {
+                // não é JSON, usa como texto
+            }
+
+            if (response.ok) {
+                responseElement.innerHTML = ` Sucesso! Status: ${response.status}\n\n${responseText}`;
+                responseElement.classList.add('response-success');
+                
+                // >>> LIMPEZA DO FORMULÁRIO APLICADA AQUI <<<
+                if (formElement) {
+                    formElement.reset(); 
+                }
+                
+            } else {
+                responseElement.innerHTML = ` Erro! Status: ${response.status}\n\n${responseText}`;
+                responseElement.classList.add('response-error');
+                responseElement.classList.add('error');
+            }
+
+        } catch (error) {
+            responseElement.innerHTML = ` Erro de Conexão: ${error.message}. Verifique se o servidor está rodando na porta ${API_BASE_URL.split(':')[2]}`;
+            responseElement.classList.add('response-error');
+            responseElement.classList.add('error');
+        }
+    }
+
+    // --- Event Listener: Cadastrar Veículo (POST /cadastro) ---
+    document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const form = event.target; // Captura o elemento do formulário
+        const data = {
+            marca: form.marca.value,
+            modelo: form.modelo.value,
+            ano: parseInt(form.ano.value),
+            cor: form.cor.value
+        };
+        // Passa o 'form' como o 5º argumento para a makeRequest
+        makeRequest(`${API_BASE_URL}/cadastro`, 'POST', data, document.getElementById('cadastroResponse'), form);
+    });
+
+    // --- Event Listener: Buscar Todos os Veículos (GET /) ---
+    document.getElementById('getAllButton').addEventListener('click', function() {
+        makeRequest(`${API_BASE_URL}/`, 'GET', null, document.getElementById('getAllResponse'));
+    });
+
+    // --- Event Listener: Buscar por Marca (GET /:marca) ---
+    document.getElementById('getByMarcaForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const marca = event.target.searchMarca.value;
+        makeRequest(`${API_BASE_URL}/${marca}`, 'GET', null, document.getElementById('getByMarcaResponse'));
+    });
+    
+    // --- Event Listener: Atualizar Veículo (PATCH /atualizar/:id) ---
+    document.getElementById('atualizarForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const form = event.target;
+        const id = form.updateId.value;
+        
+        // Cria o corpo da requisição apenas com os campos preenchidos
+        const data = {};
+        if (form.updateMarca.value) data.marca = form.updateMarca.value;
+        if (form.updateModelo.value) data.modelo = form.updateModelo.value;
+        if (form.updateAno.value) data.ano = parseInt(form.updateAno.value);
+        if (form.updateCor.value) data.cor = form.updateCor.value;
+
+        if (Object.keys(data).length === 0) {
+            const responseEl = document.getElementById('atualizarResponse');
+            responseEl.innerHTML = '<span class="error"> Erro: Preencha pelo menos um campo para atualização além do ID.</span>';
+            responseEl.classList.remove('response-success');
+            responseEl.classList.add('response-error');
+            return;
+        }
+        
+        makeRequest(`${API_BASE_URL}/atualizar/${id}`, 'PATCH', data, document.getElementById('atualizarResponse'));
+    });
+
+    // --- Event Listener: Deletar Veículo (DELETE /deletar/:id) ---
+    document.getElementById('deletarForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const id = event.target.deleteId.value;
+        makeRequest(`${API_BASE_URL}/deletar/${id}`, 'DELETE', null, document.getElementById('deletarResponse'));
+    });
+
+</script>
+       
+
+</body>
+</html>

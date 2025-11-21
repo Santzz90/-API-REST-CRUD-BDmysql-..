@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const Veiculos = require ("./models/Veiculos");
 const bodyParser = require("body-parser");
-
+const cors = require("cors");
+app.use(cors());
 //configurar o body-parser
     
 app.use(bodyParser.urlencoded({extend:false}));
