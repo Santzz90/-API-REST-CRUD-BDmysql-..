@@ -11,7 +11,7 @@ Para executar este código siga os seguintes passos:
 ## 2. Baixar o código e preparar o ambiente
 1. Abra um shell (cmd, git bash ou PowerShell — este último pode ter restrições para executar o `npm`)
 2. Clone o código deste repositório (em qualquer pasta onde você tenha permissão de escrita):
-git clone <URL_DO_SEU_REPOSITORIO>
+git clone https://github.com/Santzz90/-API-REST-CRUD-BDmysql-...git
 3. Mude para dentro da pasta criada do projeto:
 cd nome_da_pasta_do_projeto
 4. Nessa pasta digite o comando abaixo (vai instalar os pacotes listados nas dependências):
