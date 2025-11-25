@@ -3,238 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Veículos API </title>
+    <title>Gerenciamento de Veículos</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <style>
-        .response-container { margin-top: 15px; padding: 15px; border: 1px solid #d4edda; background-color: #f8f9fa; border-radius: .25rem; white-space: pre-wrap; font-family: monospace; }
-        .error { color: red; font-weight: bold; }
-        /* classes de RESPOSTA  do Bootstrap para cores */
-        .response-success { background-color: #d1e7dd; border-color: #badbcc; color: #0f5132; }
-        .response-error { background-color: #f8d7da; border-color: #f5c2c7; color: #842029; }
-    </style>
+    <link rel="stylesheet" href="css/style.css"> 
 </head>
 <body>
 
-    <div class="container mt-5">
-        <h1 class="mb-4 text-primary">Gerenciamento de Veículos</h1>
+    <h1>Gerenciamento de Veículos</h1>
+
+    <section>
+        <h2>Cadastro e Atualização de Veículos</h2>
         
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white">
-                <h2>Cadastrar Novo Veículo (POST /cadastro)</h2>
-            </div>
-            <div class="card-body">
-                <form id="cadastroForm">
-                    <div class="mb-3">
-                        <label for="marca" class="form-label">Marca:</label>
-                        <input type="text" id="marca" name="marca" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modelo" class="form-label">Modelo:</label>
-                        <input type="text" id="modelo" name="modelo" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="ano" class="form-label">Ano:</label>
-                        <input type="number" id="ano" name="ano" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="cor" class="form-label">Cor:</label>
-                        <input type="text" id="cor" name="cor" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">Cadastrar Veículo</button>
-                </form>
-                <div id="cadastroResponse" class="response-container"></div>
-            </div>
-        </div>
+        <form id="veiculoForm">
+            <input type="hidden" id="inputId" value=""> 
 
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-warning text-dark">
-                <h2>Atualizar Veículo (PATCH /atualizar/:id)</h2>
-            </div>
-            <div class="card-body">
-                <form id="atualizarForm">
-                    <div class="mb-3">
-                        <label for="updateId" class="form-label">ID do Veículo a Atualizar:</label>
-                        <input type="number" id="updateId" name="id" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="updateMarca" class="form-label">Nova Marca:</label>
-                        <input type="text" id="updateMarca" name="marca" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="updateModelo" class="form-label">Novo Modelo:</label>
-                        <input type="text" id="updateModelo" name="modelo" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="updateAno" class="form-label">Novo Ano:</label>
-                        <input type="number" id="updateAno" name="ano" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="updateCor" class="form-label">Nova Cor:</label>
-                        <input type="text" id="updateCor" name="cor" class="form-control">
-                    </div>
-                    <p class="text-muted">Preencha apenas os campos que deseja atualizar.</p>
-                    <button type="submit" class="btn btn-warning text-dark">Atualizar Veículo</button>
-                </form>
-                <div id="atualizarResponse" class="response-container"></div>
-            </div>
-        </div>
-
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-info text-white">
-                <h2>Consultar Veículos</h2>
-            </div>
-            <div class="card-body">
+            <fieldset>
+                <legend id="formLegend">Cadastrar Novo Veículo</legend>
                 
-                <h3 class="mt-0">Todos os Veículos (GET /)</h3>
-                <button id="getAllButton" class="btn btn-info text-white">Buscar Todos os Veículos</button>
-                <div id="getAllResponse" class="response-container"></div>
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" required>
                 
-                <hr class="my-4">
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" name="modelo" required>
+                
+                <label for="ano">Ano:</label>
+                <input type="number" id="ano" name="ano" required>
+                
+                <label for="cor">Cor:</label>
+                <input type="text" id="cor" name="cor" required>
+            </fieldset>
 
-                <h3>Buscar por Marca (GET /:marca)</h3>
-                <form id="getByMarcaForm">
-                    <div class="mb-3">
-                        <label for="searchMarca" class="form-label">Marca para Buscar:</label>
-                        <input type="text" id="searchMarca" name="marca" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-info text-white">Buscar por Marca</button>
-                </form>
-                <div id="getByMarcaResponse" class="response-container"></div>
+            <div style="margin-top: 20px;">
+                <button type="submit" id="submitButton">Salvar Veículo</button> 
+                <button type="button" onclick="resetFormulario()">Limpar</button>
             </div>
-        </div>
+            <p id="formStatus" class="status-message"></p>
+        </form>
+    </section>
 
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-danger text-white">
-                <h2>Excluir Veículo (DELETE /deletar/:id)</h2>
-            </div>
-            <div class="card-body">
-                <form id="deletarForm">
-                    <div class="mb-3">
-                        <label for="deleteId" class="form-label">ID do Veículo a Deletar:</label>
-                        <input type="number" id="deleteId" name="id" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-danger">Deletar Veículo</button>
-                </form>
-                <div id="deletarResponse" class="response-container"></div>
-            </div>
-        </div>
+    <section>
+        <h2>Veículos Cadastrados</h2>
+        
+        <button type="button" onclick="carregarVeiculos()">Atualizar Lista de Veículos</button>
+        <p id="tabelaStatus" class="status-message" data-success="true">Clique em "Atualizar Lista de Veículos" para carregar os dados.</p>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+        <table id="motoristasTable"> 
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Ano</th>
+                    <th>Cor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="veiculosTableBody">
+                </tbody> 
+        </table>
+    </section>
+    
 <script>
-    const API_BASE_URL = 'http://localhost:8081'; // port
+    const API_BASE_URL = 'http://localhost:8081'; 
 
+    // Referências aos elementos do DOM
+    const form = document.getElementById('veiculoForm');
+    const inputId = document.getElementById('inputId');
+    const formLegend = document.getElementById('formLegend');
+    const submitButton = document.getElementById('submitButton');
+    const formStatus = document.getElementById('formStatus');
+    const tabelaStatus = document.getElementById('tabelaStatus');
+    const veiculosTableBody = document.getElementById('veiculosTableBody');
 
-    async function makeRequest(url, method, body = null, responseElement, formElement = null) {
-        // limpa classes e mostra status de carregamento
-        responseElement.innerHTML = 'Carregando...';
-        responseElement.classList.remove('response-success', 'response-error');
-        responseElement.classList.remove('error'); // remove a classe de texto vermelho de erro
-        responseElement.style.backgroundColor = ''; // remove o style inline antigo (por segurança)
+    // 
+
+    function displayStatus(element, message, isSuccess) {
+        element.textContent = message;
+        element.setAttribute('data-success', isSuccess ? 'true' : 'false');
+    }
+
+    function resetFormulario() {
+        form.reset();
+        inputId.value = '';
+        formLegend.textContent = 'Cadastrar Novo Veículo';
+        submitButton.textContent = 'Salvar Veículo';
+        submitButton.classList.remove('update-mode');
+        displayStatus(formStatus, 'Formulário limpo e pronto para novo cadastro.', true);
+        document.getElementById('marca').focus();
+    }
+    
+    // CRUD: GET (Carregar e Popular Tabela)
+
+    function popularTabelaVeiculos(veiculos) {
+        veiculosTableBody.innerHTML = ''; 
+
+        if (!veiculos || veiculos.length === 0) {
+            displayStatus(tabelaStatus, 'Nenhum veículo encontrado.', false);
+            return;
+        }
+
+        veiculos.forEach(veiculo => {
+            const row = veiculosTableBody.insertRow();
+            
+            // Dados
+            row.insertCell().textContent = veiculo.id;
+            row.insertCell().textContent = veiculo.marca;
+            row.insertCell().textContent = veiculo.modelo;
+            row.insertCell().textContent = veiculo.ano;
+            row.insertCell().textContent = veiculo.cor;
+
+            // Coluna Ações
+            const actionsCell = row.insertCell();
+            
+            // Botão Editar
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Editar';
+            editBtn.setAttribute('onclick', `preencherFormularioParaEdicaoVeiculo(${veiculo.id}, '${veiculo.marca}', '${veiculo.modelo}', ${veiculo.ano}, '${veiculo.cor}')`);
+            
+            // Botão Excluir
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Excluir';
+            deleteBtn.setAttribute('onclick', `excluirVeiculo(${veiculo.id})`);
+
+            actionsCell.appendChild(editBtn);
+            actionsCell.appendChild(deleteBtn);
+        });
+        
+        displayStatus(tabelaStatus, `Lista atualizada com ${veiculos.length} veículos.`, true);
+    }
+
+    async function carregarVeiculos() {
+        displayStatus(tabelaStatus, 'Carregando lista de veículos...', false);
+        veiculosTableBody.innerHTML = ''; 
 
         try {
-            const options = {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            if (body && (method === 'POST' || method === 'PATCH')) {
-                options.body = JSON.stringify(body);
-            }
-
-            const response = await fetch(url, options);
-            let responseText = await response.text();
-
-            // tenta fazer parse como JSON
-            try {
-                const json = JSON.parse(responseText);
-                responseText = JSON.stringify(json, null, 2);
-            } catch (e) {
-                // não é JSON, usa como texto
-            }
+            const response = await fetch(`${API_BASE_URL}/`);
+            const data = await response.json();
 
             if (response.ok) {
-                responseElement.innerHTML = ` Sucesso! Status: ${response.status}\n\n${responseText}`;
-                responseElement.classList.add('response-success');
-                
-                // >>> LIMPEZA DO FORMULÁRIO APLICADA AQUI <<<
-                if (formElement) {
-                    formElement.reset(); 
-                }
-                
+                popularTabelaVeiculos(data);
             } else {
-                responseElement.innerHTML = ` Erro! Status: ${response.status}\n\n${responseText}`;
-                responseElement.classList.add('response-error');
-                responseElement.classList.add('error');
+                displayStatus(tabelaStatus, `Erro ao carregar veículos: ${data.message || response.statusText}`, false);
             }
-
         } catch (error) {
-            responseElement.innerHTML = ` Erro de Conexão: ${error.message}. Verifique se o servidor está rodando na porta ${API_BASE_URL.split(':')[2]}`;
-            responseElement.classList.add('response-error');
-            responseElement.classList.add('error');
+            displayStatus(tabelaStatus, `Erro de conexão: ${error.message}. Verifique se a API está rodando.`, false);
         }
     }
 
-    // --- Event Listener: Cadastrar Veículo (POST /cadastro) ---
-    document.getElementById('cadastroForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const form = event.target; // Captura o elemento do formulário
-        const data = {
-            marca: form.marca.value,
-            modelo: form.modelo.value,
-            ano: parseInt(form.ano.value),
-            cor: form.cor.value
-        };
-        // Passa o 'form' como o 5º argumento para a makeRequest
-        makeRequest(`${API_BASE_URL}/cadastro`, 'POST', data, document.getElementById('cadastroResponse'), form);
-    });
 
-    // --- Event Listener: Buscar Todos os Veículos (GET /) ---
-    document.getElementById('getAllButton').addEventListener('click', function() {
-        makeRequest(`${API_BASE_URL}/`, 'GET', null, document.getElementById('getAllResponse'));
-    });
+    //  CRUD: PREENCHER FORM (Edição) 
 
-    // --- Event Listener: Buscar por Marca (GET /:marca) ---
-    document.getElementById('getByMarcaForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const marca = event.target.searchMarca.value;
-        makeRequest(`${API_BASE_URL}/${marca}`, 'GET', null, document.getElementById('getByMarcaResponse'));
-    });
-    
-    // --- Event Listener: Atualizar Veículo (PATCH /atualizar/:id) ---
-    document.getElementById('atualizarForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const form = event.target;
-        const id = form.updateId.value;
+    function preencherFormularioParaEdicaoVeiculo(id, marca, modelo, ano, cor) {
+        resetFormulario(); 
         
-        // Cria o corpo da requisição apenas com os campos preenchidos
-        const data = {};
-        if (form.updateMarca.value) data.marca = form.updateMarca.value;
-        if (form.updateModelo.value) data.modelo = form.updateModelo.value;
-        if (form.updateAno.value) data.ano = parseInt(form.updateAno.value);
-        if (form.updateCor.value) data.cor = form.updateCor.value;
+        // Configura para modo de atualização
+        inputId.value = id;
+        formLegend.textContent = `Atualizar Veículo ID: ${id}`;
+        submitButton.textContent = 'Atualizar Veículo';
+        submitButton.classList.add('update-mode');
 
-        if (Object.keys(data).length === 0) {
-            const responseEl = document.getElementById('atualizarResponse');
-            responseEl.innerHTML = '<span class="error"> Erro: Preencha pelo menos um campo para atualização além do ID.</span>';
-            responseEl.classList.remove('response-success');
-            responseEl.classList.add('response-error');
+        // Preenche os campos com os valores atuais
+        document.getElementById('marca').value = marca;
+        document.getElementById('modelo').value = modelo;
+        document.getElementById('ano').value = ano;
+        document.getElementById('cor').value = cor;
+        
+        displayStatus(formStatus, `Dados do Veículo ID ${id} carregados para edição.`, true);
+        
+        // Rola até o formulário
+        form.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // CRUD: DELETE (Excluir) 
+
+    async function excluirVeiculo(id) {
+        if (!confirm(`Tem certeza que deseja EXCLUIR o veículo com ID ${id}? Esta ação é irreversível!`)) {
             return;
         }
+
+        displayStatus(tabelaStatus, `Excluindo veículo ID ${id}...`, false);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/deletar/${id}`, { method: 'DELETE' });
+            
+            
+            let responseText = await response.text();
+            
+            if (response.ok || responseText.includes("deletado com sucesso")) {
+                displayStatus(tabelaStatus, `Veículo ID ${id} excluído com sucesso!`, true);
+                carregarVeiculos(); 
+            } else {
+                displayStatus(tabelaStatus, `Erro ao excluir veículo ID ${id}: ${responseText || response.statusText}`, false);
+            }
+        } catch (error) {
+            displayStatus(tabelaStatus, `Erro de conexão ao tentar excluir: ${error.message}`, false);
+        }
+    }
+    
+    //  CRUD: POST/PATCH (Salvar/Atualizar)
+
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
         
-        makeRequest(`${API_BASE_URL}/atualizar/${id}`, 'PATCH', data, document.getElementById('atualizarResponse'));
+        const isUpdate = inputId.value !== '';
+        const id = inputId.value;
+        const method = isUpdate ? 'PATCH' : 'POST';
+        const endpoint = isUpdate ? `${API_BASE_URL}/atualizar/${id}` : `${API_BASE_URL}/cadastro`;
+
+        const data = {
+            marca: document.getElementById('marca').value,
+            modelo: document.getElementById('modelo').value,
+            ano: parseInt(document.getElementById('ano').value),
+            cor: document.getElementById('cor').value
+        };
+
+        displayStatus(formStatus, isUpdate ? `Enviando atualização para ID ${id}...` : 'Enviando cadastro...', false);
+
+        try {
+            const response = await fetch(endpoint, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            
+            let responseText = await response.text();
+
+            if (response.ok) {
+                const message = isUpdate ? 
+                    `Veículo ID ${id} atualizado com sucesso!` : 
+                    `Cadastro realizado com sucesso! ${responseText}`;
+                
+                displayStatus(formStatus, message, true);
+                resetFormulario(); 
+                carregarVeiculos(); // Atualiza a tabela
+            } else {
+                displayStatus(formStatus, `Erro ao ${isUpdate ? 'atualizar' : 'cadastrar'}: ${responseText || response.statusText}`, false);
+            }
+
+        } catch (error) {
+            displayStatus(formStatus, `Erro de conexão: ${error.message}`, false);
+        }
     });
 
-    // --- Event Listener: Deletar Veículo (DELETE /deletar/:id) ---
-    document.getElementById('deletarForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const id = event.target.deleteId.value;
-        makeRequest(`${API_BASE_URL}/deletar/${id}`, 'DELETE', null, document.getElementById('deletarResponse'));
-    });
+    // Inicializa a tabela ao carregar a página
+    window.onload = carregarVeiculos; 
 
 </script>
        

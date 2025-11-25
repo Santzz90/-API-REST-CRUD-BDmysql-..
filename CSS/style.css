@@ -1,0 +1,196 @@
+/* public/css/style.css */
+
+/* --- Variáveis e Reset Básico --- */
+:root {
+    --primary-color: #007bff; /* Azul primário para botões e destaque */
+    --secondary-color: #6c757d; /* Cinza para botões secundários (Atualizar) */
+    --background-color: #f8f9fa; /* Fundo claro */
+    --text-color: #343a40; /* Cor de texto principal */
+    --border-color: #ced4da;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px;
+}
+
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+}
+
+section {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* --- Estilo do Formulário (Geral) --- */
+
+/* Aplica o estilo de fieldset a qualquer fieldset dentro de um form na section */
+section form fieldset {
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: grid;
+    gap: 15px;
+    /* Colunas: 1 coluna em telas pequenas, 2 ou 3 em telas maiores */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+section form legend {
+    font-weight: bold;
+    color: var(--primary-color);
+    padding: 0 10px;
+}
+
+section form label {
+    display: block;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+section form input[type="text"],
+section form input[type="email"],
+section form input[type="number"], /* Adicionado para campos numéricos */
+section form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+section form input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* --- Estilo de Botões --- */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+/* Botão Primário (Salvar/Cadastrar) - Padrão */
+#submitButton {
+    background-color: var(--primary-color);
+    color: white;
+}
+#submitButton:hover {
+    background-color: #0056b3;
+}
+/* Botão de Atualização (Secundário) */
+#submitButton.update-mode { /* Usando classe específica */
+    background-color: var(--secondary-color);
+    color: white;
+}
+#submitButton.update-mode:hover {
+    background-color: #5a6268;
+}
+
+/* Botão Secundário (Limpar/Extrair) */
+button[onclick^="resetFormulario"],
+button[onclick^="uploadCNH"] {
+    background-color: var(--secondary-color);
+    color: white;
+}
+button[onclick^="resetFormulario"]:hover,
+button[onclick^="uploadCNH"]:hover {
+    background-color: #5a6268;
+}
+
+/* Botões da Tabela (Editar/Excluir) */
+button:not([type="submit"]) { /* Estilo geral para botões na tabela */
+    padding: 6px 10px;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+button[onclick^="preencherFormularioParaEdicao"] {
+    background-color: var(--success-color);
+    color: white;
+}
+button[onclick^="preencherFormularioParaEdicao"]:hover {
+    background-color: #1e7e34;
+}
+button[onclick^="excluirVeiculo"] { /* Alterado para a função correta */
+    background-color: var(--danger-color);
+    color: white;
+}
+button[onclick^="excluirVeiculo"]:hover {
+    background-color: #bd2130;
+}
+
+/* --- Mensagem de Status --- */
+.status-message { /* Usando a classe genérica */
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.status-message[data-success="true"] {
+    color: var(--success-color);
+    background-color: #d1e7dd; /* Fundo mais claro para sucesso */
+    border: 1px solid #badbcc;
+}
+.status-message[data-success="false"] {
+    color: var(--danger-color);
+    background-color: #f8d7da; /* Fundo mais claro para erro */
+    border: 1px solid #f5c2c7;
+}
+
+
+/* --- Estilo da Tabela --- */
+#motoristasTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#motoristasTable thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#motoristasTable th,
+#motoristasTable td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+#motoristasTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#motoristasTable tbody tr:hover {
+    background-color: #e9ecef;
+}
